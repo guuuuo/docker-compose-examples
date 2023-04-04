@@ -9,7 +9,3 @@ services:
     image: 'bitnami/memcached:latest'
     networks:
       - app-tier
-  myapp:
-    image: 'YOUR_APPLICATION_IMAGE'
-    networks:
-      - app-tier
