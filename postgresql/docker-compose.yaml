@@ -1,5 +1,3 @@
-version: '3.5'
-
 services:
   postgres:
     image: postgres
@@ -8,11 +6,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       PGDATA: /data/postgres
     volumes:
-       - postgres:/data/postgres
+       - /data/postgres:/data/postgres
     ports:
-      - "5432:5432"
-    networks:
-      - postgres
+      - "15432:5432"
     restart: unless-stopped
   
   pgadmin:
@@ -22,17 +18,13 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-       - pgadmin:/var/lib/pgadmin
+       - /data/pgadmin:/var/lib/pgadmin
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
-    networks:
-      - postgres
+      - "${PGADMIN_PORT:-15480}:80"
     restart: unless-stopped
+    depends_on:
+      - postgres
 
 networks:
-  postgres:
-    driver: bridge
-
-volumes:
-    postgres:
-    pgadmin:
+  default:
+    name: postgres
